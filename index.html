@@ -148,11 +148,29 @@
     else showToast('Paused');
   }
 
-  function spawnObstacle() {
-    const height = 24 + Math.random()*Math.max(46, H()*0.07);
-    const width = 26 + Math.random()*Math.max(34, W()*0.05);
-    obstacles.push({ x: W() + 12, y: groundY - height, w: width, h: height, mood: Math.random() < 0.5 ? 'smile' : 'shock' });
-  }
+  function minLandingGapPx() {
+  // Basis-Landepuffer, skaliert leicht mit Speed + Ballradius
+  return 160 + 40*Math.min(3, speed) + player.r*2;
+}
+
+function spawnObstacle() {
+  const height = 24 + Math.random()*Math.max(46, H()*0.07);
+  const width  = 26 + Math.random()*Math.max(34, W()*0.05);
+
+  const last = obstacles[obstacles.length - 1];
+  const gap  = minLandingGapPx();
+
+  // Start-X so wählen, dass immer genug Abstand zum letzten Hindernis bleibt
+  const startX = last ? Math.max(W() + 12, last.x + last.w + gap) : (W() + 12);
+
+  obstacles.push({
+    x: startX,
+    y: groundY - height,
+    w: width,
+    h: height,
+    mood: Math.random() < 0.5 ? 'smile' : 'shock'
+  });
+}
 
   function circleRectCollides(cx, cy, r, rx, ry, rw, rh) {
     const nearestX = Math.max(rx, Math.min(cx, rx+rw)), nearestY = Math.max(ry, Math.min(cy, ry+rh));
@@ -234,10 +252,8 @@
     timeToNext -= dt;
     if (timeToNext <= 0) {
       spawnObstacle();
-      const base = 1.1 / (0.6 + Math.pow(speed, 0.65));
-      timeToNext = base * (0.6 + Math.random()*0.9);
-    }
-
+      const base = 1.2 / (0.6 + Math.pow(speed, 0.65)); // minimal längeres Grundintervall
+timeToNext = base * (0.8 + Math.random()*1.0);
     for (const o of obstacles)
       if (circleRectCollides(player.x, player.y, player.r*0.92, o.x, o.y, o.w, o.h)) { gameOver(); return; }
 
