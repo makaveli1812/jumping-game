@@ -4,117 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Jumping Ball – Mobile</title>
-
-  <!-- iOS / Android PWA-style fullscreen when added to home screen -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
-
   <style>
-    :root {
-      /* safe-area for iOS */
-      --inset-top: env(safe-area-inset-top);
-      --inset-bottom: env(safe-area-inset-bottom);
-    }
+    :root { --inset-top: env(safe-area-inset-top); --inset-bottom: env(safe-area-inset-bottom); }
     * { box-sizing: border-box; }
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overscroll-behavior: none;
+    html, body { height: 100%; margin: 0; padding: 0; overscroll-behavior: none;
       background: linear-gradient(#b3e5ff, #e7f7ff);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-    #wrap {
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      height: 100dvh; /* device-pixel aware */
-      padding-top: calc(6px + var(--inset-top));
-      padding-bottom: calc(6px + var(--inset-bottom));
-      place-items: center;
-      gap: 6px;
-    }
-    h1 {
-      margin: 0;
-      font-weight: 800;
-      font-size: 18px;
-      color: #16425B;
-      text-shadow: 0 2px 0 rgba(255,255,255,0.7);
-    }
-    #ui {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 6px 10px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.7);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-      max-width: 92vw;
-    }
-    .pill {
-      background: #fff;
-      color: #16425B;
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-weight: 800;
-      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.06);
-      font-size: 14px;
-    }
-    button {
-      border: 0;
-      background: #16425B;
-      color: #fff;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-    button.secondary { background: #2D6A4F; }
-    button.ghost {
-      background: transparent;
-      color: #16425B;
-      border: 2px solid #16425B;
-    }
-    canvas {
-      width: min(100vw, 900px);
-      height: min(65dvh, 520px);
-      max-height: 75dvh;
-      image-rendering: pixelated;
-      border-radius: 14px;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.15);
-      background: linear-gradient(#c8f1ff, #e6fbff);
-      touch-action: manipulation;
-    }
-    #hint {
-      color: #16425B;
-      opacity: 0.9;
-      font-size: 14px;
-      padding-bottom: 2px;
-      text-align: center;
-      max-width: 90vw;
-    }
-    .toast {
-      position: fixed;
-      bottom: calc(12px + var(--inset-bottom));
-      left: 50%;
-      transform: translateX(-50%);
-      background: #16425B;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-    .toast.show { opacity: 1; }
+      -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    #wrap { display: grid; grid-template-rows: auto 1fr auto; height: 100dvh;
+      padding-top: calc(6px + var(--inset-top)); padding-bottom: calc(6px + var(--inset-bottom));
+      place-items: center; gap: 6px; }
+    h1 { margin: 0; font-weight: 800; font-size: 18px; color: #16425B; text-shadow: 0 2px 0 rgba(255,255,255,0.7); }
+    #ui { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap;
+      padding: 6px 10px; border-radius: 10px; background: rgba(255,255,255,0.7);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08); max-width: 92vw; }
+    .pill { background: #fff; color: #16425B; padding: 6px 10px; border-radius: 999px; font-weight: 800;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.06); font-size: 14px; }
+    button { border: 0; background: #16425B; color: #fff; padding: 8px 14px; border-radius: 999px;
+      font-weight: 800; font-size: 14px; cursor: pointer; touch-action: manipulation; }
+    button.secondary { background: #2D6A4F; } button.ghost { background: transparent; color: #16425B; border: 2px solid #16425B; }
+    canvas { width: min(100vw, 900px); height: min(65dvh, 520px); max-height: 75dvh; image-rendering: pixelated;
+      border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.15); background: linear-gradient(#c8f1ff, #e6fbff);
+      touch-action: manipulation; }
+    #hint { color: #16425B; opacity: 0.9; font-size: 14px; padding-bottom: 2px; text-align: center; max-width: 90vw; }
+    .toast { position: fixed; bottom: calc(12px + var(--inset-bottom)); left: 50%; transform: translateX(-50%);
+      background: #16425B; color: #fff; padding: 10px 14px; border-radius: 10px; font-weight: 700; opacity: 0;
+      transition: opacity 0.25s ease; pointer-events: none; } .toast.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -132,7 +50,6 @@
     <div id="hint">Tap anywhere or press SPACE/↑ to jump. Add to Home Screen for full-screen.</div>
   </div>
   <div class="toast" id="toast"></div>
-
 <script>
 (() => {
   const canvas = document.getElementById('game');
@@ -145,20 +62,17 @@
   const btnMute = document.getElementById('btnMute');
   const toast = document.getElementById('toast');
 
-  // Handle high-DPI and resize to fit screen
   function resizeCanvas() {
     const dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
-    // match CSS size
     const rect = canvas.getBoundingClientRect();
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(rect.height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS pixels
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   window.addEventListener('resize', resizeCanvas);
   window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 200));
   resizeCanvas();
 
-  // Prevent iOS rubber-band and double-tap zoom
   document.addEventListener('gesturestart', e => e.preventDefault());
   let lastTouchEnd = 0;
   document.addEventListener('touchend', (e) => {
@@ -167,26 +81,15 @@
     lastTouchEnd = now;
   }, { passive: false });
 
-  // Game state
-  let running = false;
-  let paused = false;
-  let tLast = 0;
-  let score = 0;
+  let running = false, paused = false, tLast = 0, score = 0;
   let best = Number(localStorage.getItem('bestScore_ballrunner') || 0);
-  let speed = 1;                 // Multiplier that ramps up
-  let baseSpeed = 220;           // px/s at speed=1
-  let gravity = 1800;            // px/s^2
-  let jumpVel = 680;             // initial jump velocity (px/s)
+  let speed = 1, baseSpeed = 220, gravity = 1800, jumpVel = 680;
   const H = () => canvas.height / (window.devicePixelRatio || 1);
   const W = () => canvas.width / (window.devicePixelRatio || 1);
-  let groundY = 0;               // set in reset()
+  let groundY = 0;
   let player = { x: 120, y: 0, r: 26, vy: 0, onGround: true, blink: 0 };
-  let obstacles = [];
-  let clouds = [];
-  let timeToNext = 0;
-  let muted = false;
+  let obstacles = [], clouds = [], timeToNext = 0, muted = false;
 
-  // Simple SFX using WebAudio; resume on first user gesture (iOS needs this)
   const actx = new (window.AudioContext || window.webkitAudioContext)();
   function unlockAudio() {
     if (actx.state !== 'running') actx.resume();
@@ -195,281 +98,133 @@
   }
   window.addEventListener('pointerdown', unlockAudio, { once: true });
   window.addEventListener('keydown', unlockAudio, { once: true });
+
   function beep(freq=660, dur=0.08, type='sine', vol=0.15) {
     if (muted || actx.state !== 'running') return;
-    const o = actx.createOscillator();
-    const g = actx.createGain();
-    o.type = type;
-    o.frequency.value = freq;
-    o.connect(g);
-    g.gain.value = vol;
-    g.connect(actx.destination);
-    const now = actx.currentTime;
-    o.start(now);
-    o.stop(now + dur);
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = freq; o.connect(g); g.gain.value = vol; g.connect(actx.destination);
+    const now = actx.currentTime; o.start(now); o.stop(now + dur);
   }
 
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1100);
-  }
+  function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1100); }
 
-  // Clouds
   function initClouds() {
     clouds = [];
-    for (let i=0;i<7;i++) {
-      clouds.push({
-        x: Math.random()*W(), y: 30+Math.random()*160, w: 70+Math.random()*120,
-        h: 26+Math.random()*18, speed: 10+Math.random()*30, puff: 4+Math.floor(Math.random()*3)
-      });
-    }
+    for (let i=0;i<7;i++) clouds.push({ x: Math.random()*W(), y: 30+Math.random()*160, w: 70+Math.random()*120,
+      h: 26+Math.random()*18, speed: 10+Math.random()*30, puff: 4+Math.floor(Math.random()*3) });
   }
 
   function reset() {
-    score = 0;
-    speed = 1;
-    obstacles = [];
-    groundY = Math.max(160, Math.floor(H()*0.78));
+    score = 0; speed = 1; obstacles = []; groundY = Math.max(160, Math.floor(H()*0.78));
     player.r = Math.round(Math.min(32, Math.max(22, H()*0.045)));
-    player.x = Math.min(140, Math.max(90, W()*0.13));
-    player.y = groundY - player.r;
-    player.vy = 0;
-    player.onGround = true;
-    timeToNext = 0.8;
-    paused = false;
-    running = true;
-    tLast = performance.now();
-    initClouds();
+    player.x = Math.min(140, Math.max(90, W()*0.13)); player.y = groundY - player.r; player.vy = 0; player.onGround = true;
+    timeToNext = 0.8; paused = false; running = true; tLast = performance.now(); initClouds();
   }
 
-  // Input
   function jump() {
     if (!running) return;
-    if (player.onGround) {
-      player.vy = -jumpVel;
-      player.onGround = false;
-      beep(700, 0.05, 'triangle', 0.2);
-    } else {
-      // tiny coyote time
-      if (player.y > groundY - player.r - 6 && player.vy > -80) {
-        player.vy = -jumpVel*0.85;
-        beep(760, 0.04, 'triangle', 0.18);
-      }
-    }
+    if (player.onGround) { player.vy = -jumpVel; player.onGround = false; beep(700, 0.05, 'triangle', 0.2); }
+    else if (player.y > groundY - player.r - 6 && player.vy > -80) { player.vy = -jumpVel*0.85; beep(760, 0.04, 'triangle', 0.18); }
   }
 
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' || e.code === 'ArrowUp') {
-      e.preventDefault();
-      jump();
-    } else if (e.code === 'KeyP') {
-      togglePause();
-    } else if (e.code === 'Enter' && !running) {
-      startGame();
-    }
+    if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); }
+    else if (e.code === 'KeyP') togglePause();
+    else if (e.code === 'Enter' && !running) startGame();
   });
-  canvas.addEventListener('pointerdown', () => {
-    if (!running) startGame(); else jump();
-  });
+
+  canvas.addEventListener('pointerdown', () => { if (!running) startGame(); else jump(); });
 
   btnStart.addEventListener('click', () => startGame());
   btnPause.addEventListener('click', () => togglePause());
-  btnMute.addEventListener('click', () => {
-    muted = !muted;
-    btnMute.textContent = muted ? '🔈' : '🔊';
-    showToast(muted ? 'Sound off' : 'Sound on');
-  });
+  btnMute.addEventListener('click', () => { muted = !muted; btnMute.textContent = muted ? '🔈' : '🔊'; showToast(muted ? 'Sound off' : 'Sound on'); });
 
-  function startGame() {
-    reset();
-    showToast('Go!');
-  }
+  function startGame() { reset(); showToast('Go!'); loop(); } // Start startet jetzt die Loop
 
   function togglePause() {
     if (!running) return;
     paused = !paused;
-    if (!paused) {
-      tLast = performance.now();
-      showToast('Resumed');
-      loop();
-    } else {
-      showToast('Paused');
-    }
+    if (!paused) { tLast = performance.now(); showToast('Resumed'); loop(); }
+    else showToast('Paused');
   }
 
   function spawnObstacle() {
     const height = 24 + Math.random()*Math.max(46, H()*0.07);
     const width = 26 + Math.random()*Math.max(34, W()*0.05);
-    obstacles.push({
-      x: W() + 12,
-      y: groundY - height,
-      w: width,
-      h: height,
-      mood: Math.random() < 0.5 ? 'smile' : 'shock'
-    });
+    obstacles.push({ x: W() + 12, y: groundY - height, w: width, h: height, mood: Math.random() < 0.5 ? 'smile' : 'shock' });
   }
 
-  // Collision: circle vs rect
   function circleRectCollides(cx, cy, r, rx, ry, rw, rh) {
-    const nearestX = Math.max(rx, Math.min(cx, rx+rw));
-    const nearestY = Math.max(ry, Math.min(cy, ry+rh));
-    const dx = cx - nearestX;
-    const dy = cy - nearestY;
-    return (dx*dx + dy*dy) <= r*r;
+    const nearestX = Math.max(rx, Math.min(cx, rx+rw)), nearestY = Math.max(ry, Math.min(cy, ry+rh));
+    const dx = cx - nearestX, dy = cy - nearestY; return (dx*dx + dy*dy) <= r*r;
   }
 
   function gameOver() {
     running = false;
-    beep(200, 0.12, 'sawtooth', 0.2);
-    beep(160, 0.20, 'square', 0.18);
-    best = Math.max(best, Math.floor(score));
-    localStorage.setItem('bestScore_ballrunner', best);
-    draw(true);
-    showToast('Game Over – tap / press Enter to restart');
+    beep(200, 0.12, 'sawtooth', 0.2); beep(160, 0.20, 'square', 0.18);
+    best = Math.max(best, Math.floor(score)); localStorage.setItem('bestScore_ballrunner', best);
+    draw(true); showToast('Game Over – tap / press Enter');
   }
 
   function drawEyes(x, y, r, blinkPhase=0) {
-    const eyeR = r*0.22;
-    const dx = player.onGround ? 0 : (player.vy < 0 ? 3 : -2);
-    const blink = Math.max(0.1, Math.abs(Math.sin(blinkPhase))*1);
-    // white
-    ctx.fillStyle = '#fff';
-    ctx.beginPath();
-    ctx.ellipse(x - r*0.35, y - r*0.15, eyeR, eyeR*blink, 0, 0, Math.PI*2);
-    ctx.ellipse(x + r*0.1,  y - r*0.18, eyeR, eyeR*blink, 0, 0, Math.PI*2);
-    ctx.fill();
-    // pupils
-    ctx.fillStyle = '#16425B';
-    ctx.beginPath();
-    ctx.arc(x - r*0.35 + dx*0.4, y - r*0.15, eyeR*0.45, 0, Math.PI*2);
-    ctx.arc(x + r*0.1 + dx*0.4,  y - r*0.18, eyeR*0.45, 0, Math.PI*2);
-    ctx.fill();
+    const eyeR = r*0.22, dx = player.onGround ? 0 : (player.vy < 0 ? 3 : -2), blink = Math.max(0.1, Math.abs(Math.sin(blinkPhase))*1);
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(x - r*0.35, y - r*0.15, eyeR, eyeR*blink, 0, 0, Math.PI*2);
+    ctx.ellipse(x + r*0.1,  y - r*0.18, eyeR, eyeR*blink, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#16425B'; ctx.beginPath(); ctx.arc(x - r*0.35 + dx*0.4, y - r*0.15, eyeR*0.45, 0, Math.PI*2);
+    ctx.arc(x + r*0.1 + dx*0.4,  y - r*0.18, eyeR*0.45, 0, Math.PI*2); ctx.fill();
   }
 
   function drawGround(Wv, Hv) {
-    const groundYv = groundY;
-    ctx.fillStyle = '#74c69d';
-    ctx.fillRect(0, groundYv, Wv, Hv-groundYv);
-    ctx.fillStyle = '#95d5b2';
-    for (let i=0;i<Wv;i+=24) ctx.fillRect(i, groundYv+18, 14, 6);
-    ctx.fillStyle = '#52b788';
-    ctx.fillRect(0, groundYv-6, Wv, 6);
+    const groundYv = groundY; ctx.fillStyle = '#74c69d'; ctx.fillRect(0, groundYv, Wv, Hv-groundYv);
+    ctx.fillStyle = '#95d5b2'; for (let i=0;i<Wv;i+=24) ctx.fillRect(i, groundYv+18, 14, 6);
+    ctx.fillStyle = '#52b788'; ctx.fillRect(0, groundYv-6, Wv, 6);
   }
 
   function drawCloud(c) {
-    ctx.fillStyle = 'rgba(255,255,255,0.95)';
-    let px = c.x;
-    for (let i=0;i<c.puff;i++) {
-      ctx.beginPath();
-      ctx.ellipse(px, c.y, c.w/4, c.h/2, 0, 0, Math.PI*2);
-      ctx.fill();
-      px += c.w / (c.puff - 1);
-    }
+    ctx.fillStyle = 'rgba(255,255,255,0.95)'; let px = c.x;
+    for (let i=0;i<c.puff;i++) { ctx.beginPath(); ctx.ellipse(px, c.y, c.w/4, c.h/2, 0, 0, Math.PI*2); ctx.fill(); px += c.w / (c.puff - 1); }
   }
 
   function drawObstacle(o) {
-    ctx.fillStyle = '#FFD166';
-    ctx.strokeStyle = '#16425B';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(o.x, o.y, o.w, o.h, 6);
-    } else {
-      ctx.rect(o.x, o.y, o.w, o.h);
-    }
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#16425B';
-    if (o.mood === 'smile') {
-      ctx.beginPath();
-      ctx.arc(o.x + o.w*0.3, o.y + o.h*0.35, 3, 0, Math.PI*2);
-      ctx.arc(o.x + o.w*0.7, o.y + o.h*0.35, 3, 0, Math.PI*2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(o.x + o.w*0.5, o.y + o.h*0.6, 10, 0, Math.PI);
-      ctx.stroke();
-    } else {
-      ctx.beginPath();
-      ctx.arc(o.x + o.w*0.3, o.y + o.h*0.35, 2, 0, Math.PI*2);
-      ctx.arc(o.x + o.w*0.7, o.y + o.h*0.35, 2, 0, Math.PI*2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(o.x + o.w*0.5, o.y + o.h*0.62, 6, 0, Math.PI*2);
-      ctx.stroke();
-    }
+    ctx.fillStyle = '#FFD166'; ctx.strokeStyle = '#16425B'; ctx.lineWidth = 3; ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(o.x, o.y, o.w, o.h, 6); else ctx.rect(o.x, o.y, o.w, o.h);
+    ctx.fill(); ctx.stroke(); ctx.fillStyle = '#16425B';
+    if (o.mood === 'smile') { ctx.beginPath(); ctx.arc(o.x + o.w*0.3, o.y + o.h*0.35, 3, 0, Math.PI*2);
+      ctx.arc(o.x + o.w*0.7, o.y + o.h*0.35, 3, 0, Math.PI*2); ctx.fill(); ctx.beginPath();
+      ctx.arc(o.x + o.w*0.5, o.y + o.h*0.6, 10, 0, Math.PI); ctx.stroke();
+    } else { ctx.beginPath(); ctx.arc(o.x + o.w*0.3, o.y + o.h*0.35, 2, 0, Math.PI*2); ctx.arc(o.x + o.w*0.7, o.y + o.h*0.35, 2, 0, Math.PI*2);
+      ctx.fill(); ctx.beginPath(); ctx.arc(o.x + o.w*0.5, o.y + o.h*0.62, 6, 0, Math.PI*2); ctx.stroke(); }
   }
 
   function draw(gameOverScreen=false) {
-    const Wv = W(), Hv = H();
-    ctx.clearRect(0,0,Wv,Hv);
-
-    // Sun and clouds
-    ctx.fillStyle = '#ffe066';
-    ctx.beginPath();
-    ctx.arc(Wv-50, 50, 28, 0, Math.PI*2);
-    ctx.fill();
-
-    clouds.forEach(c => drawCloud(c));
-
-    drawGround(Wv, Hv);
-
-    obstacles.forEach(o => drawObstacle(o));
-
-    // Shadow
+    const Wv = W(), Hv = H(); ctx.clearRect(0,0,Wv,Hv);
+    ctx.fillStyle = '#ffe066'; ctx.beginPath(); ctx.arc(Wv-50, 50, 28, 0, Math.PI*2); ctx.fill();
+    clouds.forEach(c => drawCloud(c)); drawGround(Wv, Hv); obstacles.forEach(o => drawObstacle(o));
     const shadowScale = Math.max(0.4, 1 - (groundY - (player.y + player.r))/140);
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
-    ctx.beginPath();
-    ctx.ellipse(player.x, groundY+2, player.r*shadowScale, player.r*0.35*shadowScale, 0, 0, Math.PI*2);
-    ctx.fill();
-
-    // Player
+    ctx.fillStyle = 'rgba(0,0,0,0.12)'; ctx.beginPath();
+    ctx.ellipse(player.x, groundY+2, player.r*shadowScale, player.r*0.35*shadowScale, 0, 0, Math.PI*2); ctx.fill();
     const squish = player.onGround ? 1 + Math.min(0.35, Math.abs(player.vy)/900) : 1;
-    ctx.save();
-    ctx.translate(player.x, player.y);
-    ctx.scale(1, squish);
-    ctx.fillStyle = '#FFD23F';
-    ctx.strokeStyle = '#16425B';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.arc(0, 0, player.r, 0, Math.PI*2);
-    ctx.fill();
-    ctx.stroke();
-    drawEyes(0, 0, player.r, player.blink);
-    ctx.restore();
-
+    ctx.save(); ctx.translate(player.x, player.y); ctx.scale(1, squish);
+    ctx.fillStyle = '#FFD23F'; ctx.strokeStyle = '#16425B'; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, player.r, 0, Math.PI*2);
+    ctx.fill(); ctx.stroke(); drawEyes(0, 0, player.r, player.blink); ctx.restore();
     if (gameOverScreen) {
-      ctx.fillStyle = 'rgba(0,0,0,0.45)';
-      ctx.fillRect(0,0,Wv,Hv);
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'center';
-      ctx.font = 'bold 34px system-ui, sans-serif';
-      ctx.fillText('Game Over!', Wv/2, Hv/2 - 16);
-      ctx.font = 'bold 18px system-ui, sans-serif';
-      ctx.fillText('Tap or press Enter to restart', Wv/2, Hv/2 + 18);
+      ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fillRect(0,0,Wv,Hv);
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+      ctx.font = 'bold 34px system-ui, sans-serif'; ctx.fillText('Game Over!', Wv/2, Hv/2 - 16);
+      ctx.font = 'bold 18px system-ui, sans-serif'; ctx.fillText('Tap or press Enter to restart', Wv/2, Hv/2 + 18);
     }
   }
 
   function update(dt) {
-    speed += (0.06 * dt) / (1 + Math.max(0, speed - 1) * 1.6);
-    speed = Math.min(speed, 7.5);
+    speed += (0.06 * dt) / (1 + Math.max(0, speed - 1) * 1.6); speed = Math.min(speed, 7.5);
     speedEl.textContent = 'Speed: ' + speed.toFixed(2) + 'x';
 
-    clouds.forEach(c => {
-      c.x -= c.speed * dt * (0.5 + speed*0.05);
-      if (c.x < -120) c.x = W() + 40;
-    });
+    clouds.forEach(c => { c.x -= c.speed * dt * (0.5 + speed*0.05); if (c.x < -120) c.x = W() + 40; });
 
-    player.vy += gravity * dt;
-    player.y += player.vy * dt;
-    if (player.y + player.r >= groundY) {
-      player.y = groundY - player.r;
-      player.vy = 0;
-      if (!player.onGround) beep(300, 0.03, 'square', 0.1);
-      player.onGround = true;
-    } else {
-      player.onGround = false;
-    }
+    player.vy += gravity * dt; player.y += player.vy * dt;
+    if (player.y + player.r >= groundY) { player.y = groundY - player.r; player.vy = 0; if (!player.onGround) beep(300, 0.03, 'square', 0.1); player.onGround = true; }
+    else player.onGround = false;
+
     player.blink += dt * (player.onGround ? 8 : 4);
 
     const pxPerSec = baseSpeed * speed;
@@ -483,12 +238,8 @@
       timeToNext = base * (0.6 + Math.random()*0.9);
     }
 
-    for (const o of obstacles) {
-      if (circleRectCollides(player.x, player.y, player.r*0.92, o.x, o.y, o.w, o.h)) {
-        gameOver();
-        return;
-      }
-    }
+    for (const o of obstacles)
+      if (circleRectCollides(player.x, player.y, player.r*0.92, o.x, o.y, o.w, o.h)) { gameOver(); return; }
 
     score += dt * pxPerSec * 0.08;
     scoreEl.textContent = 'Score: ' + Math.floor(score);
@@ -496,24 +247,16 @@
   }
 
   function loop(now) {
-    if (!running) return;
-    if (paused) return;
+    if (!running || paused) return;
     if (!now) now = performance.now();
-    const dt = Math.min(0.03, (now - tLast)/1000);
-    tLast = now;
-    update(dt);
-    draw(false);
-    requestAnimationFrame(loop);
+    const dt = Math.min(0.03, (now - tLast)/1000); tLast = now;
+    update(dt); draw(false); requestAnimationFrame(loop);
   }
 
-  window.addEventListener('keydown', (e) => {
-    if (!running && (e.code === 'Enter' || e.code === 'Space')) startGame();
-  });
+  window.addEventListener('keydown', (e) => { if (!running && (e.code === 'Enter' || e.code === 'Space')) startGame(); });
 
-  // initial paint
-  reset(); // prepare world values without starting
-  running = false; // show idle screen
-  draw(false);
+  // initial paint (idle)
+  reset(); running = false; draw(false);
 })();
 </script>
 </body>
